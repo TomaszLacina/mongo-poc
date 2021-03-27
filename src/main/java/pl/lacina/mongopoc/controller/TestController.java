@@ -1,6 +1,7 @@
 package pl.lacina.mongopoc.controller;
 
 
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -35,9 +36,9 @@ public class TestController {
         firstListOfAttributes.add(new Attribute("Stawka", AttributeType.NUMERIC, null, 99999L, null));
 
         List<Attribute> secondListOfAttributes = new ArrayList<>();
-        firstListOfAttributes.add(new Attribute("Pole", AttributeType.STRING, "Pod lasem", null, null));
-        firstListOfAttributes.add(new Attribute("Praca", AttributeType.STRING, "Oranie", null, null));
-        firstListOfAttributes.add(new Attribute("Ile to Hektorow?", AttributeType.NUMERIC, null, 3L, null));
+        secondListOfAttributes.add(new Attribute("Pole", AttributeType.STRING, "Pod lasem", null, null));
+        secondListOfAttributes.add(new Attribute("Praca", AttributeType.STRING, "Oranie", null, null));
+        secondListOfAttributes.add(new Attribute("Ile to Hektorow?", AttributeType.NUMERIC, null, 3L, null));
 
 
         timeSheetRepository.save(new TimeSheet("Tomasz", LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(5).plusHours(8), firstListOfAttributes));
@@ -64,6 +65,10 @@ public class TestController {
         timeSheetRepository.save(new TimeSheet("Janusz Korwin-Mikke", LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1).plusHours(8), secondListOfAttributes));
 
 
+
+        timeSheetRepository.save(new TimeSheet("Lacina", LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1).plusHours(8),
+            Arrays.asList((new Attribute("Nowy", AttributeType.STRING, "Nowiutki", null, null)),
+                (new Attribute("Elo", AttributeType.STRING, "Rapy", null, null)))));
         return timeSheetList;
     }
 
@@ -76,6 +81,11 @@ public class TestController {
     @GetMapping("/getKrakowskie")
     public List<TimeSheet> getKrakowskie(){
         return timeSheetService.getKrakowskie();
+    }
+
+    @GetMapping("/getElo")
+    public List<TimeSheet> getElo(){
+        return timeSheetService.getEloRapy();
     }
 
 }
